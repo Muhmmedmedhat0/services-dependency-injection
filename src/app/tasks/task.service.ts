@@ -14,13 +14,12 @@ export class TaskService {
   }
 
   // Method to add a new task
-  addTask(task: Partial<Task>) {
+  addTask(task: Omit<Task, 'id' | 'status'>) {
     this.tasks.update((tasks) => [
       ...tasks,
-      { ...task, id: Date.now(), status: 'OPEN' } as Task,
+      { ...task, id: Date.now() + Math.random(), status: 'OPEN' },
     ]);
   }
-
   // Method to update an existing task
   updateTaskStatus(id: number, status: TaskStatus) {
     this.tasks.update((tasks) =>
