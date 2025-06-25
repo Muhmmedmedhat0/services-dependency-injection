@@ -25,7 +25,7 @@ export class TaskItemComponent {
     }
   });
 
-  onChangeTaskStatus(taskId: string, status: string) {
+  onChangeTaskStatus(taskId: number, status: string) {
     let newStatus: TaskStatus = 'OPEN';
 
     switch (status) {

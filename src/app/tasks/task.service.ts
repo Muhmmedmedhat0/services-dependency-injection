@@ -1,5 +1,5 @@
 import { Injectable, signal } from '@angular/core';
-import { Task } from './task.model';
+import type { Task, TaskStatus } from './task.model';
 
 @Injectable({
   providedIn: 'root',
@@ -9,15 +9,22 @@ export class TaskService {
   private tasks = signal<Task[]>([]);
 
   // Getter to access the tasks
-  getTasks() {
+  getAllTasks() {
     return this.tasks.asReadonly();
   }
 
   // Method to add a new task
-  addTask(task: Task) {
+  addTask(task: Partial<Task>) {
     this.tasks.update((tasks) => [
       ...tasks,
-      { ...task, id: Date.now(), status: 'OPEN' },
+      { ...task, id: Date.now(), status: 'OPEN' } as Task,
     ]);
+  }
+
+  // Method to update an existing task
+  updateTaskStatus(id: number, status: TaskStatus) {
+    this.tasks.update((tasks) =>
+      tasks.map((task) => (task.id === id ? { ...task, status } : task))
+    );
   }
 }
